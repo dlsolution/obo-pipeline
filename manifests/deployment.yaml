@@ -16,9 +16,9 @@ spec:
     spec:
       containers:
         - name: "obo-app"
-          image: obo:v0
+          image: duylinh158/obo-pipeline:v1.6
           ports:
             - containerPort: 8080
           env: 
           - name: DATABASE_URL
-            value: "jdbc:mysql://192.168.0.108:3336/obo?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
+            value: "jdbc:mysql://192.168.1.4:3336/obo?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC"

@@ -21,4 +21,4 @@ spec:
             - containerPort: 8080
           env: 
           - name: DATABASE_URL
-            value: "jdbc:mysql://192.168.1.4:3336/obo?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
+            value: "jdbc:mysql://192.168.1.8:3336/obo?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC"

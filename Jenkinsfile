@@ -24,13 +24,13 @@ pipeline {
       steps {
         withCredentials([gitUsernamePassword(credentialsId: 'jenkins_github_pac', gitToolName: 'Default')]) {
           sh 'rm -rf obo-manifest'
-          sh 'git clone https://github.com/dlsolution/obo-manifest.git'
+          sh 'git clone https://github.com/dlsolution/obo-app-with-helm.git'
         }
         script {
           sh "echo 'Update deployment manifest'"
-          def filename = 'obo-manifest/dev/deployment.yaml'
+          def filename = 'values.yaml'
           def data = readYaml file: filename
-          data.spec.template.spec.containers[0].image = "duylinh158/obo-pipeline:v1.${BUILD_NUMBER}"
+          data.image.tag = "v1.${BUILD_NUMBER}"
           sh "rm $filename"
           writeYaml file: filename, data: data
           sh "cat $filename"

@@ -23,24 +23,25 @@ pipeline {
     stage('Deploy') {
       steps {
         withCredentials([gitUsernamePassword(credentialsId: 'jenkins_github_pac', gitToolName: 'Default')]) {
-          sh 'rm -rf obo-manifest'
-          sh 'git clone https://github.com/dlsolution/obo-manifest.git'
+          sh 'rm -rf obo-app-with-helm'
+          sh 'git clone https://github.com/dlsolution/obo-app-with-helm.git'
         }
         script {
-          sh "echo 'Update deployment manifest'"
-          def filename = 'obo-manifest/dev/deployment.yaml'
+          sh "echo 'Update values manifest'"
+          def filename = 'obo-app-with-helm/values.yaml'
           def data = readYaml file: filename
-          data.spec.template.spec.containers[0].image = "duylinh158/obo-pipeline:v1.${BUILD_NUMBER}"
+          data.image.tag = "v1.${BUILD_NUMBER}"
+          data.env.secret.database_url = "jdbc:mysql://192.168.1.6:3336/obo?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
           sh "rm $filename"
           writeYaml file: filename, data: data
           sh "cat $filename"
         }
         withCredentials([gitUsernamePassword(credentialsId: 'jenkins_github_pac', gitToolName: 'Default')]) {
           sh '''
-            cd obo-manifest
+            cd obo-app-with-helm
             git config user.email "jenkins@example.com"
             git config user.name "Jenkins"
-            git add dev/deployment.yaml
+            git add values.yaml
             git commit -am "update image to tag v1.${BUILD_NUMBER}"
             git push origin master
           '''

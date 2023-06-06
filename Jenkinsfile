@@ -72,7 +72,7 @@ pipeline {
           sh "rm $servicefile"
           writeYaml file: servicefile, data: servicedata
         }
-        withKubeConfig([credentialsId: 'kubeconfig', serverUrl: 'https://192.168.1.8:6443']) {
+        withKubeConfig([credentialsId: 'kubeconfig', serverUrl: 'https://192.168.1.6:6443']) {
           sh 'kubectl apply -f manifests -n dev'
         }
       }
@@ -124,7 +124,7 @@ pipeline {
           sh "rm $servicefile"
           writeYaml file: servicefile, data: servicedata
         }
-        withKubeConfig([credentialsId: 'kubeconfig', serverUrl: 'https://192.168.1.8:6443']) {
+        withKubeConfig([credentialsId: 'kubeconfig', serverUrl: 'https://192.168.1.6:6443']) {
           sh 'kubectl apply -f manifests -n release'
         }
       }
